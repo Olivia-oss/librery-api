@@ -1,9 +1,32 @@
-import { createPool } from "mysql2/promise";
+import { Sequelize } from "sequelize";
 
-export const pool = createPool({
-  host: process.env.HOST,
-  port: process.env.PORT,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
-});
+const sequelize = new Sequelize(
+  process.env.DATABASE,
+  process.env.USER,
+  process.env.PASSWORD,
+  {
+    host: process.env.HOST,
+    dialect: "mysql",
+    operatorsAliases: false,
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  }
+);
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connetion has been established successfully");
+  })
+  .catch((error) => {
+    console.error("Unable to connect to the database: ", error);
+  });
+
+export const db = {
+  sequelize: sequelize,
+  Sequelize: Sequelize,
+};

@@ -5,6 +5,11 @@ import { getAllBook } from "./modules/books/services/books.service.js";
 
 const app = express();
 
+// cors
+const corsOption = {
+  origin: "url",
+};
+
 app.use(bodyParser.json());
 
 const readData = () => {
