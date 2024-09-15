@@ -8,6 +8,7 @@ const sequelize = new Sequelize(
     host: process.env.HOST,
     dialect: "mysql",
     operatorsAliases: false,
+
     pool: {
       max: 10,
       min: 0,

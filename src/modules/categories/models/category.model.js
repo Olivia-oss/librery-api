@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 
-export default (sequelize, Sequelize) => {
-  const Category = sequelize.define("category", {
+export const Category = (sequelize, Sequelize) => {
+  const model = sequelize.define("category", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -14,5 +14,5 @@ export default (sequelize, Sequelize) => {
     },
   });
 
-  return Category;
+  return model;
 };

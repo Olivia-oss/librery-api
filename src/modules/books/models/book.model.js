@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 
-export default (sequelize, Sequelize) => {
-  const Book = sequelize.define("book", {
+export const Book = (sequelize, Sequelize) => {
+  const model = sequelize.define("book", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -16,19 +16,21 @@ export default (sequelize, Sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    auhor: {
+    author: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    category_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+
     url_img: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   });
 
-  return Book;
+  model.belongsTo(sequelize.models.Category, {
+    foreignKey: "id_category",
+    as: "category",
+  });
+
+  return model;
 };

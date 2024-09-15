@@ -1,18 +1,49 @@
-import { pool } from "../../../db/mysql.connetion.js";
+import { asyncHandle } from "../../../middlewares/asyncHandle.middleware.js";
+import {
+  createBook,
+  deleteBook,
+  findAllBook,
+  findByIdBook,
+  updateBook,
+} from "../repositories/books.repository.js";
 
-export const getAllBook = async () => {
-  try {
-    console.log("enter");
-    console.log(process.env.HOST);
+export const getAllBook = asyncHandle(async (req, res, next) => {
+  const data = await findAllBook();
+  res.json(data);
+});
 
-    const result = await pool.query(
-      `SELECT b.id AS book_id, b.name, b.description, b.author, b.year, c.name as category_name, b.url_img, c.name AS category_name 
-   FROM books b 
-   JOIN categories c 
-   ON b.id_category = c.id`
-    );
-    console.log(result);
-  } catch (error) {
-    console.error(error);
+export const getByIdBook = asyncHandle(async (req, res, next) => {
+  const id = parseInt(req.params.id);
+  const data = await findByIdBook(id);
+  res.json(data);
+});
+
+export const postBook = asyncHandle(async (req, res, next) => {
+  const book = req.body;
+
+  const result = await createBook(book);
+  const newData = await findByIdBook(result[0]);
+
+  res.json({ data: newData });
+});
+
+export const putBook = asyncHandle(async (req, res, next) => {
+  const book = req.body;
+  const id = req.params.id;
+
+  await updateBook(book, id);
+  const updateData = await findByIdBook(id);
+
+  res.json({ data: updateData });
+});
+
+export const deleteByIdBook = async (req, res, next) => {
+  const id = req.params.id;
+  const result = await deleteBook(id);
+
+  if (result[0].affectedRows == 1) {
+    res.json({ message: "Deleted book succefull" });
+  } else {
+    res.json({ message: "Deleted book failded" });
   }
 };
