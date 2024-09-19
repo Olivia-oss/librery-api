@@ -1,10 +1,13 @@
 import { asyncHandle } from "../../../middlewares/asyncHandle.middleware.js";
+import { findAllCategories } from "../../categories/repositories/categories.repository.js";
 import {
   createBook,
   deleteBook,
   findAllBook,
   findByIdBook,
+  findBookByCategory,
   updateBook,
+  findBookSearh,
 } from "../repositories/books.repository.js";
 
 export const getAllBook = asyncHandle(async (req, res, next) => {
@@ -15,6 +18,20 @@ export const getAllBook = asyncHandle(async (req, res, next) => {
 export const getByIdBook = asyncHandle(async (req, res, next) => {
   const id = parseInt(req.params.id);
   const data = await findByIdBook(id);
+  res.json(data);
+});
+
+export const getCBooksByCategory = asyncHandle(async (req, res, next) => {
+  const idCategory = parseInt(req.params.idCategory);
+
+  const data = await findBookByCategory(idCategory);
+  res.json(data);
+});
+
+export const getBookSearh = asyncHandle(async (req, res, next) => {
+  const searh = req.params.searh;
+
+  const data = await findBookSearh(`%${searh}%`);
   res.json(data);
 });
 

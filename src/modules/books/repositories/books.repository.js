@@ -32,6 +32,32 @@ export const findByIdBook = async (id) => {
   );
 };
 
+export const findBookByCategory = async (idCategory) => {
+  return await db.sequelize.query(
+    `SELECT b.id , b.name, b.description, b.author, b.year, c.name as category_name, b.url_img
+   FROM books b 
+   JOIN categories c 
+   ON b.id_category = c.id where b.id_category = ?`,
+    {
+      replacements: [idCategory],
+      type: db.sequelize.QueryTypes.SELECT,
+      model: Book,
+      mapToModel: true,
+      raw: true,
+    }
+  );
+};
+
+export const findBookSearh = async (searh) => {
+  return await db.sequelize.query(`SELECT * FROM books  WHERE name LIKE ?`, {
+    replacements: [searh],
+    type: db.sequelize.QueryTypes.SELECT,
+    model: Book,
+    mapToModel: true,
+    raw: true,
+  });
+};
+
 export const createBook = async (book) => {
   return await db.sequelize.query(
     `INSERT INTO books (name, description, author, year, id_category, url_img) 
