@@ -17,7 +17,7 @@ app.use("/api/v1/categories", useRouterCategories);
 db.sequelize.sync().then(() => {
   console.log("Database running");
 });
-
-app.listen(3000, () => {
-  console.log("server running port 30000");
+const port = process.env.PORT;
+app.listen(port || 3000, () => {
+  console.log("server running port ", port);
 });
