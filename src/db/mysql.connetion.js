@@ -6,9 +6,9 @@ const sequelize = new Sequelize(
   process.env.PASSWORD,
   {
     host: process.env.HOST,
+    port: process.env.PORT,
     dialect: "mysql",
-    operatorsAliases: false,
-
+    connectTimeout: 60000,
     pool: {
       max: 10,
       min: 0,
