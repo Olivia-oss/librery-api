@@ -7,7 +7,7 @@ const app = express();
 
 // cors
 const corsOption = {
-  origin: "http://localhost:5173",
+  origin: "https://librery-app.onrender.com",
 };
 app.use(cors(corsOption));
 app.use(express.json());
