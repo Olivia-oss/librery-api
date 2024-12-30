@@ -5,9 +5,11 @@ import { db } from "./db/mysql.connetion.js";
 import cors from "cors";
 const app = express();
 
+const url = "https://librery-app.onrender.com";
+//const url = "http://localhost:5173";
 // cors
 const corsOption = {
-  origin: "https://librery-app.onrender.com",
+  origin: url,
 };
 app.use(cors(corsOption));
 app.use(express.json());
